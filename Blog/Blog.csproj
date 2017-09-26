@@ -15,11 +15,14 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.Data\Blog.Data.csproj" />
   </ItemGroup>
 
 </Project>

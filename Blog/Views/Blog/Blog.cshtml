@@ -1,4 +1,4 @@
-﻿
+﻿@model BlogViewModel
 @{
     ViewData["Blog"] = "Blog";
 }
@@ -9,10 +9,16 @@
     </div> <!--Ende kopfbereich-->
     <div id="navibereich">
     </div> <!--Ende navibereich-->
-    <div id="textbereich" style="font-size: large">
-        <div class="padded">
-            <p></p>
-        </div>
+    <div id="textbereich">
+       @foreach(var eintrag in Model.blogeintraege)
+       {
+           <div id="@eintrag.ID" class="blogeintrag">
+               <h3 style="color: rgba(138, 23, 23, 1);">@eintrag.Titel</h3>
+               <p>@eintrag.Text.Substring(0, Math.Min(250, eintrag.Text.Length)) 
+                    <a href="@Url.Action("Blogdetail", "Blog", new { ID=eintrag.ID})">mehr lesen...</a>
+               </p>               
+           </div>     
+       }
     </div> <!--Ende textbereich-->
     <div id="fussbereich">
     </div> <!--Ende fussbereich-->
