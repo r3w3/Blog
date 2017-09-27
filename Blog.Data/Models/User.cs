@@ -8,7 +8,6 @@ namespace Blog.Data.Models
 {
     public class User: IdentityUser
     {
-        [Required]
-        public string Name { get; set; }
+        public string LastName { get; set; }
     }
 }

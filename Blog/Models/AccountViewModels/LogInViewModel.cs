@@ -10,18 +10,16 @@ namespace Blog.Models
 {
     public class LogInViewModel
     {
-        public class LoginViewModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Passwort { get; set; }
 
-            [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
-        }
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+        
     }
 }

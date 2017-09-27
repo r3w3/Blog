@@ -14,11 +14,13 @@ namespace Blog.Data.Data
 
         public DbSet<Kommentar> Kommentare { get; set; }
         public DbSet<Blogeintrag> Blogeinträge { get; set; }
+        //public DbSet<User> Blogger { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Blogeintrag>().ToTable("Blog");
             modelBuilder.Entity<Kommentar>().ToTable("Kommentare");
+            //modelBuilder.Entity<User>().ToTable("AspNetUsers");
         }
     }
 }

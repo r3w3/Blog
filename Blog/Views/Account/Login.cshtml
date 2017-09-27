@@ -1,0 +1,28 @@
+﻿@model LogInViewModel
+@{
+    ViewData["login"] = "Login";
+}
+<div id="wrapper">
+    <div id="kopfbereich">
+        <h2>Login</h2>
+    </div> <!--Ende kopfbereich-->
+    <div class="row">
+        <div class="col-md-4">
+            <form action="@Url.Action("Login", "Home")" method="post">
+                <h4>Bitte melde Dich an:</h4>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(y => y.Email)
+                    @Html.TextBoxFor(y => y.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(y => y.Email) })
+                    @Html.ValidationMessageFor(y => y.Email, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(y => y.Passwort)
+                    @Html.TextBoxFor(y => y.Passwort, new { @class = "form-control", placeholder = Html.DisplayNameFor(y => y.Passwort) })
+                    @Html.ValidationMessageFor(y => y.Passwort, null, new { @class = "text-danger" })
+                </div>
+                <button type="submit" class="btn btn-default">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
