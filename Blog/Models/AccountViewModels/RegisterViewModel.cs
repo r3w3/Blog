@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blog.Data.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Models
 {
-    public class BlogViewModel
+    public class RegisterViewModel
     {
-        public List<Blogeintrag> blogeintraege { get; set; }
+        public string Email { get; set; }
+        public string Passwort { get; set; }
     }
 }

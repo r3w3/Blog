@@ -30,7 +30,7 @@
 </form>
 @if(Model.eintrag.Kommentare != null && Model.eintrag.Kommentare.Any())
 {
-    foreach (var kommentar in Model.eintrag.Kommentare)
+    foreach (var kommentar in Model.eintrag.Kommentare.OrderByDescending(x=>x.CreatedDate))
     {
         <hr />
         <div>

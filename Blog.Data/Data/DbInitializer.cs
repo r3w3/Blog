@@ -29,8 +29,8 @@ namespace Blog.Data.Data
 
             var kommentar = new Kommentar[]
             {
-                new Kommentar{CreatedDate=DateTime.Now, Text="f<eufih<of", Name="Günther", Email="günther@gmail.com"},
-                new Kommentar{CreatedDate=DateTime.Now, Text="fjhs<eof,fn<ogn ifhoi<sgho", Name="Dieter", Email="dieterderdumme@gmail.com"}
+                new Kommentar{CreatedDate=DateTime.Now, Text="f<eufih<of", Name="Günther", Email="günther@gmail.com", BlogEintragID=1},
+                new Kommentar{CreatedDate=DateTime.Now, Text="fjhs<eof,fn<ogn ifhoi<sgho", Name="Dieter", Email="dieterderdumme@gmail.com", BlogEintragID=1}
             };
             foreach(Kommentar k in kommentar)
             {

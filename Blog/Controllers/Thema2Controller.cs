@@ -3,18 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Blog.Data.Data;
+using Blog.Models;
 
 namespace Blog.Controllers
 {
     public class Thema2Controller : Controller
     {
+        private readonly BlogContext _context;
+
+        public Thema2Controller(BlogContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            return View("Thema2");
+            var blogmodel = new BlogViewModel();
+            blogmodel.blogeintraege = _context.Blogeinträge.Where(x => x.Bereich == Data.Models.Bereiche.Thema2).ToList();
+            return View("Thema2", blogmodel);
         }
-        public IActionResult Thema2()
+        public IActionResult Thema2(bool? isSortbydate)
         {
-            return View("Thema2");
+            var blogmodel = new BlogViewModel();
+            blogmodel.blogeintraege = _context.Blogeinträge.Where(x => x.Bereich == Data.Models.Bereiche.Thema2).ToList();
+            if (isSortbydate != null)
+            {
+                blogmodel.isdatesorted = isSortbydate.Value;
+            }
+            return View("Thema2", blogmodel);
         }
+        public IActionResult Thema2detail(int? ID)
+        {
+            if (ID != null)
+            {
+                _context.Blogeinträge.First(x => x.ID == ID).ClickCount++;
+                _context.SaveChanges();
+
+                var model = new Thema2detailViewModel();
+                model.eintrag = _context.Blogeinträge.First(x => x.ID == ID);
+                model.eintrag.Kommentare = _context.Kommentare.Where(x => x.BlogEintragID == ID).ToList();
+                return View("Thema2detail", model);
+            }
+            return RedirectToAction("Thema2");
+        }
+        public IActionResult AddComment(Thema2detailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.addedkommentar.BlogEintragID = model.eintrag.ID;
+                model.addedkommentar.CreatedDate = DateTime.Now;
+                _context.Kommentare.Add(model.addedkommentar);
+                _context.SaveChanges();
+                return RedirectToAction("Thema2detail", new { ID = model.eintrag.ID });
+            }
+            model.eintrag = _context.Blogeinträge.First(x => x.ID == model.eintrag.ID);
+            model.eintrag.Kommentare = _context.Kommentare.Where(x => x.BlogEintragID == model.eintrag.ID).ToList();
+            return View("Thema2detail", model);
+        }
+
     }
 }
