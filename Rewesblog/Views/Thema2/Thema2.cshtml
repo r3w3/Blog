@@ -1,0 +1,57 @@
+﻿@model BlogViewModel
+@{
+    ViewData["Thema2"] = "Thema2";
+}
+
+<div id="wrapper">
+    <div id="kopfbereich">
+        <h2>Thema 2</h2>
+    </div> <!--Ende kopfbereich-->
+    <div id="navibereich">
+    </div> <!--Ende navibereich-->
+    <div id="textbereich">
+        <p> Sortieren nach:</p>
+        <select id="auswahlsortierung" class="form-control" style="width:auto;">
+            @if (Model.isdatesorted)
+           {
+                <option value="dateSort" selected>Datum</option>
+                <option value="clickSort">Beliebtheit</option>
+            }
+            else
+            {
+                <option value="dateSort">Datum</option>
+                <option value="clickSort" selected>Beliebtheit</option>
+            }
+        </select>
+        @{
+            var sortedThema2Einträge = Model.isdatesorted ? Model.blogeintraege.OrderByDescending(x => x.CreatedDate) : Model.blogeintraege.OrderByDescending(x => x.ClickCount);
+        }
+        @foreach (var eintrag in sortedThema2Einträge)
+        {
+            <div id="@eintrag.ID" class="thema2eintrag">
+                <h3 style="color: rgba(138, 23, 23, 1);">@eintrag.Titel <span style="font-size:small">(@eintrag.ClickCount-mal angesehen)</span></h3>
+                <p>
+                    @eintrag.Text.Substring(0, Math.Min(250, eintrag.Text.Length))
+                    <a href="@Url.Action("Thema2detail", "Thema2", new { ID=eintrag.ID})">mehr lesen...</a>
+                </p>
+            </div>
+        }
+    </div> <!--Ende textbereich-->
+    <div id="fussbereich">
+    </div> <!--Ende fussbereich-->
+</div> <!--Ende wrapper-->
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#auswahlsortierung').change(function () {
+                if ($("#auswahlsortierung option:selected").val() == "clickSort") {
+                    window.location.href = "@Url.Action("Thema2","Thema2", new { isSortbydate = false})";
+                }
+                else {
+                    window.location.href = "@Url.Action("Thema2","Thema2", new { isSortbydate = true})";
+                }
+            });
+        });
+    </script>
+}

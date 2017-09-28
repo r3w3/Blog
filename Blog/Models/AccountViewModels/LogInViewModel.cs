@@ -18,7 +18,7 @@ namespace Blog.Models
         [DataType(DataType.Password)]
         public string Passwort { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Angemeldet bleiben?")]
         public bool RememberMe { get; set; }
         
     }

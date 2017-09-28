@@ -132,7 +132,7 @@ namespace Blog.Controllers
 
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException($"Der Benutzer kann nicht geladen werden.");
             }
             ViewData["ReturnUrl"] = returnUrl;
 
@@ -163,7 +163,7 @@ namespace Blog.Controllers
                     //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("Der Benutzer hat einen neuen Account mit PAsswort erstellt");
+                    _logger.LogInformation("Der Benutzer hat einen neuen Account mit Passwort erstellt");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
