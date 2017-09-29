@@ -16,7 +16,7 @@ using Rewesblog.Services;
 
 namespace Rewesblog.Controllers
 {
-    [Authorize]
+    [Authorize(Roles=UserRole.Admin)]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
@@ -430,7 +430,7 @@ namespace Rewesblog.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult AccessDenied()
         {

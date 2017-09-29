@@ -7,6 +7,7 @@ namespace Rewesblog.Models
 {
     public class BlogdetailViewModel
     {
+        public HotTopicBoxViewModel hotmodel { get; set; }
         public Blogeintrag eintrag { get; set; }
         public Kommentar addedkommentar { get; set; } = new Kommentar();        
     }

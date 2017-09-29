@@ -1,0 +1,13 @@
+﻿@model HotTopicBoxViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div id="HotTopicBox" class="HotTopicBox">    
+</div>
+<script type="text/javascript">
+    var HotTopicArray = [];
+    @foreach (var d in Model.Elemente)
+    {
+        @:HotTopicArray.push({ID: "@d.ID", Titel: "@d.Titel", Schriftgröße: "@d.Schriftgröße", Schriftfarbe:"rgb(@d.Schriftfarbe.R, @d.Schriftfarbe.G, @d.Schriftfarbe.B)"});
+    }    
+</script>

@@ -3,57 +3,64 @@
     ViewData["Blog"] = "Blog";
 }
 
-<div id="wrapper">
-    <div id="kopfbereich">
-        <h2>Blog</h2>
-    </div> <!--Ende kopfbereich-->
-    <div id="navibereich">
-    </div> <!--Ende navibereich-->
-    <div id="textbereich">
-    <p> Sortieren nach:</p>
-        <select id="auswahlsortierung" class="form-control" style="width:auto;">
-            @if (Model.isdatesorted)
+<div class="row">
+    <div class="col-md-9">
+        <div id="kopfbereich">
+            <h2 style="font-weight:700">Blog</h2>
+            <br />
+        </div> <!--Ende kopfbereich-->
+        <div id="textbereich">
+            <p> Sortieren nach:</p>
+            <select id="auswahlsortierung" class="form-control" style="width:auto;">
+                @if (Model.isdatesorted)
             {
-                <option value="dateSort" selected>Datum</option>
-                <option value="clickSort">Beliebtheit</option>
-            }
-            else
-            {
-                <option value="dateSort">Datum</option>
-                <option value="clickSort" selected>Beliebtheit</option>
-            }
-            
-        </select>
-        @{ 
-            var sortedEinträge = Model.isdatesorted ? Model.blogeintraege.OrderByDescending(x => x.CreatedDate) : Model.blogeintraege.OrderByDescending(x => x.ClickCount);
-        }
-       @foreach (var eintrag in sortedEinträge)
-       {
-           <div id="@eintrag.ID" class="blogeintrag">
-               <h3 style="color: rgba(138, 23, 23, 1);">@eintrag.Titel <span style="font-size:small">(@eintrag.ClickCount-mal angesehen)</span></h3>
-               <p>@eintrag.Text.Substring(0, Math.Min(250, eintrag.Text.Length)) 
-                    <a href="@Url.Action("Blogdetail", "Blog", new { ID=eintrag.ID})">mehr lesen...</a>
-               </p>               
-           </div>     
-       }
-    </div> <!--Ende textbereich-->
-    <div id="fussbereich">
-    </div> <!--Ende fussbereich-->
-</div> <!--Ende wrapper-->
+                    <option value="dateSort" selected>Datum</option>
+                    <option value="clickSort">Beliebtheit</option>
+                }
+                else
+                {
+                    <option value="dateSort">Datum</option>
+                    <option value="clickSort" selected>Beliebtheit</option>
+                }
 
-@section Scripts{ 
+            </select>
+            @{
+                var sortedEinträge = Model.isdatesorted ? Model.blogeintraege.OrderByDescending(x => x.CreatedDate) : Model.blogeintraege.OrderByDescending(x => x.ClickCount);
+            }
+            @foreach (var eintrag in sortedEinträge)
+            {
+                <div id="@eintrag.ID" class="blogeintrag">
+                    <h3 style="color: rgba(138, 23, 23, 1);">@eintrag.Titel <span style="font-size:small">(@eintrag.ClickCount-mal angesehen)</span></h3>
+                    <p>
+                        @eintrag.Text.Substring(0, Math.Min(250, eintrag.Text.Length))
+                        <a href="@Url.Action("Blogdetail", "Blog", new { ID=eintrag.ID})">mehr lesen...</a>
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div style="overflow:hidden;">
+            <div class="form-group">
+                <div id="datetimepicker12"></div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+@section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#auswahlsortierung').change(function () {
-                if ($("#auswahlsortierung option:selected").val() == "clickSort") {
-                    window.location.href = "@Url.Action("Blog","Blog", new { isSortbydate = false})";
-                }
-                else {
-                    window.location.href = "@Url.Action("Blog","Blog", new { isSortbydate = true})";
-                }
-            });
+    $(document).ready(function () {
+        $('#auswahlsortierung').change(function () {
+            if ($("#auswahlsortierung option:selected").val() == "clickSort") {
+                window.location.href = "@Url.Action("Blog","Blog", new { isSortbydate = false})";
+            }
+            else {
+                window.location.href = "@Url.Action("Blog","Blog", new { isSortbydate = true})";
+            }
         });
-    </script>    
+    });
+    </script>
 }
 
 

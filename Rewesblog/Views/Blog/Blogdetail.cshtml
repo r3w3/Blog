@@ -3,44 +3,102 @@
     ViewData["Blogdetail"] = "Blogdetail";
 }
 
-<h2>@Model.eintrag.Titel</h2>
-<p>@Model.eintrag.CreatedDate</p>
-<p>@Model.eintrag.Text</p>
-<hr />
-<p style="color: rgba(138, 23, 23, 1); font-size:medium; font-weight:bold">Kommentar hinzufügen:</p>
-<form method="get" action="@Url.Action("AddComment", "Blog")">
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(m=>m.eintrag.ID)
-    <div class="form-group">
-        @Html.LabelFor(m => m.addedkommentar.Name)
-        @Html.TextBoxFor(m => m.addedkommentar.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.addedkommentar.Name) })
-        @Html.ValidationMessageFor(m => m.addedkommentar.Name, null, new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.addedkommentar.Email)
-        @Html.TextBoxFor(m => m.addedkommentar.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.addedkommentar.Email) })
-        @Html.ValidationMessageFor(m => m.addedkommentar.Email, null, new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.addedkommentar.Text)
-        @Html.TextBoxFor(m => m.addedkommentar.Text, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.addedkommentar.Text) })
-        @Html.ValidationMessageFor(m => m.addedkommentar.Text, null, new { @class = "text-danger" })
-    </div>
-    <button type="submit" class="btn btn-default">Senden</button>
-</form>
-@if(Model.eintrag.Kommentare != null && Model.eintrag.Kommentare.Any())
-{
-    foreach (var kommentar in Model.eintrag.Kommentare.OrderByDescending(x=>x.CreatedDate))
-    {
+<div class="row">
+    <div class="col-md-9">
+        <h2 style="font-weight:700">@Model.eintrag.Titel</h2>
+        <br />
+        <p>@Model.eintrag.CreatedDate</p>
+        <p>@Model.eintrag.Text</p>
         <hr />
-        <div>
-            <p>@kommentar.CreatedDate</p>
-            <p>@kommentar.Name</p>
-            <p>@kommentar.Email</p>
-            <p>@kommentar.Text</p>
+        <p style="color: rgba(138, 23, 23, 1); font-size:medium; font-weight:bold">Kommentar hinzufügen:</p>
+        <form method="get" action="@Url.Action("AddComment", "Blog")">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.eintrag.ID)
+            <div class="form-group">
+                @Html.LabelFor(m => m.addedkommentar.Name)
+                @Html.TextBoxFor(m => m.addedkommentar.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.addedkommentar.Name) })
+                @Html.ValidationMessageFor(m => m.addedkommentar.Name, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.addedkommentar.Email)
+                @Html.TextBoxFor(m => m.addedkommentar.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.addedkommentar.Email) })
+                @Html.ValidationMessageFor(m => m.addedkommentar.Email, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.addedkommentar.Text)
+                @Html.TextBoxFor(m => m.addedkommentar.Text, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.addedkommentar.Text) })
+                @Html.ValidationMessageFor(m => m.addedkommentar.Text, null, new { @class = "text-danger" })
+            </div>
+            <button type="submit" class="btn btn-default">Senden</button>
+        </form>
+        @if (Model.eintrag.Kommentare != null && Model.eintrag.Kommentare.Any())
+        {
+            foreach (var kommentar in Model.eintrag.Kommentare.OrderByDescending(x => x.CreatedDate))
+            {
+                <hr />
+                <div>
+                    <p>@kommentar.CreatedDate</p>
+                    <p>@kommentar.Name</p>
+                    <p>@kommentar.Email</p>
+                    <p>@kommentar.Text</p>
+                </div>
+
+            }
+        }
+    </div>
+    <div class="col-md-3">
+        <div style="overflow:hidden;">
+            <div class="form-group">
+                <div id="datetimepicker12"></div>
+            </div>
         </div>
+        @Html.Partial("HotTopicBox", Model.hotmodel)
+    </div>    
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            moment.locale('de');
 
-    }
+            $('#datetimepicker12').datetimepicker({
+                inline: true,
+                sideBySide: false,
+                format: 'L', //Localized Date
+                locale: moment.locale('de')
+            });
+
+            $(HotTopicArray).each(function () {
+                $('#HotTopicBox').after("<div class=\"HotTopicElement\" id=\"" + this.ID + "\" style= \"font-size: " + this.Schriftgröße + "px; line-height: " + this.Schriftgröße + "px; height: " + this.Schriftgröße + "px; color: " + this.Schriftfarbe+"; \"><a href=\"@Url.Action("Blogdetail", "Blog")/"+this.ID+"\">"+ this.Titel + "</div>");
+                var ele = $('#' + this.ID);
+                var added = false;
+                $('.HotTopicRow').each(function () {
+                    var summe = 0;
+                    $(this).find('.HotTopicElement').each(function () {
+                        summe += $(this).outerWidth();
+                    });
+                    if ($(this).innerWidth() > (summe + $(ele).outerWidth())) {
+                        $(ele).css({ "left": summe + "px" });
+                        $(this).append($(ele));
+                        added = true;
+                        return;
+                    }
+                });
+                if (added != true) {
+                    $('#HotTopicBox').append("<div class=\"HotTopicRow\"></div>");
+                    $('.HotTopicRow').last().append($(ele));
+                }
+            });
+            $('.HotTopicRow').each(function () {
+                var height = 0;
+                $(this).find('.HotTopicElement').each(function () {
+                    if ($(this).outerHeight() > height) {
+                        height = $(this).outerHeight();
+                    }
+                });
+                $(this).css({ "height": height + "px" });
+            });
+
+        });
+    </script>
 }
-
 

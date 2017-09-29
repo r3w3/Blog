@@ -3,20 +3,21 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 style="font-weight:700">@ViewData["Title"]</h2>
+<br />
 <h4>Associate your @ViewData["LoginProvider"] account.</h4>
 <hr />
+<br />
 
 <p class="text-info">
-    You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
+    Du wurdest erfolgreic mit <strong>@ViewData["LoginProvider"]</strong> authentifiziert.
+    Bitte gib eine Email ein und klicke den Button zum Beenden des Logins
 </p>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />

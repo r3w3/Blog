@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<!-- CSS-JS include -->
+		<script type="text/javascript" src="inc/tagbox.js"></script>
+		<link rel="stylesheet" type="text/css" href="inc/tagbox.css" />
+	<title>Tagging</title>
+</head>
+<body bgcolor="#3c3c3c"><div style="width: 500px;">
+
+	<!-- Tagbox 1 -->
+	<div align='right'>
+		<input id="tagtext" /><b><a style="color: #038FEC;" href="javascript:tb.addTag(tagtext.value);" >ADD</a></b><br />
+	</div>
+	
+	<div id="tagbox" class="tagbox_border" >
+		<input name = "tagbox_result" id="tagbox_result" type="hidden"/>
+	</div>
+	
+	<!-- Tagbox 2 -->
+	<div align='right'>
+		<input id="tagtext2" /><b><a style="color: #038FEC;" href="javascript:tb2.addTag(tagtext2.value);" >ADD</a></b><br />
+	</div>
+	
+	<div id="tagbox2" class="tagbox_border" >
+		<input name = "tagbox2_result" id="tagbox2_result" type="hidden"/>
+	</div>
+	
+	<!-- Tagbox 3 -->
+	<div align='right'>
+		<input id="tagtext3" /><b><a style="color: #038FEC;" href="javascript:tb3.addTag(tagtext3.value);" >ADD</a></b><br />
+	</div>
+	
+	<div id="tagbox3" class="tagbox_border" >
+		<input name = "tagbox3_result" id="tagbox3_result" type="hidden"/>
+	</div>
+	
+</div>	
+	<!-- erster Aufruf -->
+	<script type="text/javascript">
+		var tb = new Tagbox('tagbox','tb','tagbox_entry');
+		tb.setTagRemoveMode(0);
+		tb.setMaxTagChars(30);
+		tb.addTag("zwei, Tags");
+
+		var tb2 = new Tagbox('tagbox2','tb2','tagbox_entry');
+		tb2.setTagRemoveMode(1);
+		tb2.setMaxTagChars(50);
+		tb2.addTag("löschen mit, doppel klick");
+
+		var tb3 = new Tagbox('tagbox3','tb3','tagbox_entry');
+		tb3.setTagRemoveMode(0);
+		tb3.setMaxTagChars(10);
+		tb3.addTag("beachte, hier, dürfen, die, Tags, nur, 10, Zeichen, lang, sein");   
+	</script>
+
+</body>
+</html>

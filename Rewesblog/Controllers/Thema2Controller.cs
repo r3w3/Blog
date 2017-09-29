@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rewesblog.Data;
 using Rewesblog.Models;
+using Rewesblog.Helpers;
 
 namespace Rewesblog.Controllers
 {
@@ -38,8 +39,19 @@ namespace Rewesblog.Controllers
             {
                 _context.Blogeinträge.First(x => x.ID == ID).ClickCount++;
                 _context.SaveChanges();
-
+                var hotmodel = new HotTopicBoxViewModel();
+                hotmodel.Elemente = HotTopicManager.Styleelements(_context.Blogeinträge.Select(x => new HotTopicElement(x)).ToList());
+                var ele = _context.Blogeinträge.First(x => x.ID == ID);
+                switch (ele.Bereich)
+                {
+                    case Bereiche.Blog:
+                        return RedirectToAction("Blogdetail", "Blog", new { ID = ID });
+                    case Bereiche.Thema1:
+                        return RedirectToAction("Thema1detail", "Thema1", new { ID = ID });
+                }
                 var model = new Thema2detailViewModel();
+                model.eintrag = ele;
+                model.hotmodel = hotmodel;
                 model.eintrag = _context.Blogeinträge.First(x => x.ID == ID);
                 model.eintrag.Kommentare = _context.Kommentare.Where(x => x.BlogEintragID == ID).ToList();
                 return View("Thema2detail", model);

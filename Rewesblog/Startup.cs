@@ -29,7 +29,9 @@ namespace Rewesblog
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -56,7 +58,7 @@ namespace Rewesblog
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
+            app.UseStatusCodePagesWithRedirects("~/Home/Error/{0}");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -8,8 +8,8 @@ namespace Rewesblog.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="Bitte gib deine Email-Adresse ein.")]
+        [EmailAddress(ErrorMessage ="Dies ist keine gültige Email.")]
         public string Email { get; set; }
     }
 }

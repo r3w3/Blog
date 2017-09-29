@@ -3,24 +3,60 @@
     ViewData["Impressum"] = "Impressum";
 }
 
-<head>
-    <link href="_Layout.cshtml" rel="stylesheet" type="text/css" media="screen" />
-</head>
-<title>Impressum</title>
-<body id="impressum">
-    <div id="wrapper">
+<div class="row">
+    <div class="col-md-9">
         <div id="kopfbereich">
-            <h2>Impressum</h2>
+            <h2 style="font-weight:700">Impressum</h2>
+            <br />
         </div> <!--Ende kopfbereich-->
         <div id="navibereich">
         </div> <!--Ende navibereich-->
-        <div id="textbereich">
-            <p>Rebecca Kelwing</p>
-            <p>Musterstraße 10</p>
-            <p>01234 Musterstadt</p>
+        <div id="textbereich">            
+            <p style="font-size: medium">
+                <strong>
+                    Verantwortlich für den Inhalt dieser Seite: <br />
+                </strong>
+                Rebecca Kelwing <br />
+                Musterstraße 10 <br />
+                01234 Musterstadt <br />
+                Tel: 01234 567890 <br />
+                Fax: 01234 567891
+            </p>
+            <br />
+            <script language="JavaScript">
+                function datum() {
+                    mn = new Array("Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember")
+                    d = new Date(document.lastModified)
+                    m = mn[d.getMonth()]
+                    t = d.getDate()
+                    jj = d.getYear()
+                    j = (jj >= 2000) ? jj : ((jj < 80) ? jj + 2000 : jj + 1900)
+                    dat = (t + ". " + m + " " + j)
+                }
+                datum(); document.write("<b>Letzte Aktualisierung: </b> " + dat + "")
+            </script>
         </div> <!--Ende textbereich-->
-        <div id="fussbereich">
-        </div> <!--Ende fussbereich-->
-    </div> <!--Ende wrapper-->
-</body>
+    </div>
+    <div class="col-md-3">
+        <div style="overflow:hidden;">
+            <div class="form-group">
+                <div id="datetimepicker12"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            moment.locale('de');
+
+            $('#datetimepicker12').datetimepicker({
+                inline: true,
+                sideBySide: false,
+                format: 'L', //Localized Date
+                locale: moment.locale('de')
+            });
+        });
+    </script>
+}

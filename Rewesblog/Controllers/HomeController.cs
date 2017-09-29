@@ -5,19 +5,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rewesblog.Models;
+using Microsoft.AspNetCore.Authorization;
+using Rewesblog.Data;
+using Rewesblog.Helpers;
 
 namespace Rewesblog.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            return View("Index");
+            var hotmodel = new HotTopicBoxViewModel();
+            hotmodel.Elemente = HotTopicManager.Styleelements(_context.Blogeinträge.Select(x=>new HotTopicElement(x)).ToList());
+            var model = new HomeViewModel();
+            model.hotmodel = hotmodel;
+            return View("Index", model);
         }
 
         public IActionResult Home()
         {
-            return View("Index");
+            return Index();
         }
 
         public IActionResult About()
@@ -50,6 +64,7 @@ namespace Rewesblog.Controllers
             return View("Impressum");
         }
 
+        [AllowAnonymous]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

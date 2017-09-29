@@ -1,0 +1,33 @@
+
+
+.tagbox_border {
+	display: inline-block;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-top: 4px;
+	padding-left: 3px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ffffff;
+	width: 100%;
+}
+.tagbox_entry {
+	border-radius: 18px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: 1px;
+	margin-left: 2px;
+	background-color: #0099ff;
+	border-color: #ffffff;
+	float: left;
+	border-style: solid;
+	border-width: 1px;
+	max-width: 100px;
+	color: #ffffff;
+	word-wrap:break-word;
+	font-family: calibri;
+	font-size: 15px;
+	font-weight: bold;
+}

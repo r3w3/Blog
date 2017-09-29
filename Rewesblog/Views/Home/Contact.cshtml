@@ -4,33 +4,55 @@
     ViewData["Kontakt"] = "Contact";
 }
 
-<div id="wrapper">
-    <div id="kopfbereich">
-        <h2>Kontaktseite</h2>
-    </div> <!--Ende kopfbereich-->
-    <form method="get"  action="@Url.Action("ContactReturn", "Home")">
-        @Html.AntiForgeryToken()
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m=>m.Name,new {@class="form-control" , placeholder = Html.DisplayNameFor(m=>m.Name)})
-            @Html.ValidationMessageFor(m=>m.Name,null, new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-9">
+        <div id="kopfbereich">
+            <h2 style="font-weight:700">Kontaktseite</h2>
+            <br />
+        </div> <!--Ende kopfbereich-->
+        <form method="get" action="@Url.Action("ContactReturn", "Home")">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Name) })
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Email) })
+                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Text)
+                @Html.TextBoxFor(m => m.Text, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Text) })
+                @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
+            </div>
+            <button type="submit" class="btn btn-default">Senden</button>
+        </form>
+        @if (Model.SendenErfolgreich)
+        {
+            <p style="color:darkgreen">Danke für Deine Nachricht!</p>
+        }
+    </div>
+    <div class="col-md-3">
+        <div style="overflow:hidden;">
+            <div class="form-group">
+                <div id="datetimepicker12"></div>
+            </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Email) })
-            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Text)
-            @Html.TextBoxFor(m => m.Text, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Text) })
-            @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
-        </div>
-        <button type="submit" class="btn btn-default">Senden</button> 
-    </form>
-     @if (Model.SendenErfolgreich)
-     {
-         <p style="color:darkgreen">Danke für Deine Nachricht!</p>
-
-     }
+    </div>
 </div>
-             
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            moment.locale('de');
+
+            $('#datetimepicker12').datetimepicker({
+                inline: true,
+                sideBySide: false,
+                format: 'L', //Localized Date
+                locale: moment.locale('de')
+            });
+        });
+    </script>
+}

@@ -8,15 +8,15 @@ namespace Rewesblog.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage ="Bitte gib deine Email-Adresse ein")]
+        [EmailAddress(ErrorMessage ="Dies ist keine gülitge Email-Adresse")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Bitte gib dein Passwort ein")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Angemeldet bleiben?")]
         public bool RememberMe { get; set; }
     }
 }

@@ -1,61 +1,76 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Home"] = "Home";
 }
 
-<head>
-    <!--META und TITLE unverändert lassen-->
-    <title>
-        Mein Blog
-    </title>
-    <meta name="description" content="Meine kleine Website mit vielen tollen Inhalten!" />
-    <link href="htto://www.w3.org/StyleSheets/Core/Traditional" rel="stylesheet" type="text/css" media="screen" />
-</head>
-<body id="homeseite">
-    <div id="wrapper">
+<div class="row">
+    <div class="col-md-9">
         <div id="kopfbereich">
-            <h2>Home</h2>
-        </div> <!--Ende kopfbereich-->
-        <div id="navibereich">
-        </div> <!--Ende navibereich-->
+            <h2 style="font-weight:700">Home</h2>
+            <br />
+        </div>
         <div id="textbereich">
-            <p><em>Hallo</em> auf <strong>rewesblog</strong></p>
-            <ul>
-                <li>Hallo</li>
-                <li>auf</li>
-                <li>meinem</li>
-                <li>Blog</li>
-                </ul>
-            <table>
-                <tr>
-                    <td>Zelle 1</td>
-                    <td>Zelle 2</td>
-                </tr>
-                <tr>
-                    <td>Zelle 3</td>
-                    <td>Zelle 4</td>
-                </tr>
-                </table>
-            <a href="http://selfhtml.de" title="Text des Links beim Drüberfahren mit der Maus" target="_blank">SelfHTML!</a>
-                <p>Der folgende Absatz ist ein Block-Zitat mit Quellenangabe:</p>
-                <blockquote>
-                    <p>Sie können Zitate von Fremdautoren in einem eigenen, anders formatierten Absatz hervorheben.</p>
-                    <p>
-                    <cite>
-                        (Quelle:<a href="http://de.selfhtml.org/html/text/zitate_adressen.htm">SelfHTML</a>)
-                        </cite>
-                    </p>
-                </blockquote>
-        </div> <!--Ende textbereich-->
-        <div id="seitenbereich">
-            <
-            <iframe src="http://www.kalender-uhrzeit.de/calendar/iframe/type/calendar/numMonth/1/month/9/showBankholiday/1/year/2017/country/1/showHoliday/0/federal/13"
-                    name="" width="200" height="200" scrolling="no" marginheight="0" marginwidth="0"
-                    frameborder="0">
-            </iframe>
-            <p style="font-size: 10px; font-family: Verdana, Arial, Helvetica, sans-serif">
-                <a href="http://www.kalender-uhrzeit.de/kalender">Kalender
-                </a>
+            <p>Hallo, schön dass du hier auf <strong>rewesblog</strong> gelandet bist! Hier werden wöchentlich Blogeinträge beziehungsweise <br/> Einträge zu bestimmten Themen hochgeladen.
+            Mein Name ist Rebecca und ich bin 15 Jahre alt. <br /> Mehr Informationen über mich erhälst du auf der Seite <a href="About">About.</a> <br /> <br />
+            Ich wünsche Dir viel Spaß beim Lesen meines <a href="Blog">Blogs.</a><br />
+            Du kannst mir gerne ein Feedback mit Kritik und eventuellen Wünschen auf der Seite <a href="Contact">Kontakt</a> zukommen lassen. <br /> <br /><br />
+
+            Deine Rebecca
             </p>
-        </div> <!--Ende Seitenbereich-->
-    </div><!--Ende wrapper/umschlag-->
-</body>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div style="overflow:hidden;">
+            <div class="form-group">
+                <div id="datetimepicker12"></div>
+            </div>
+        </div>
+        @Html.Partial("HotTopicBox", Model.hotmodel)
+    </div>
+</div>
+@section Scripts{ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            moment.locale('de');
+
+            $('#datetimepicker12').datetimepicker({
+                inline: true,
+                sideBySide: false,
+                format: 'L', //Localized Date
+                locale: moment.locale('de')
+            });
+            
+            $(HotTopicArray).each(function () {                
+                $('#HotTopicBox').after("<div class=\"HotTopicElement\" id=\"" + this.ID + "\" style= \"font-size: " + this.Schriftgröße + "px; line-height: " + this.Schriftgröße + "px; height: " + this.Schriftgröße + "px; color: " + this.Schriftfarbe+"; \"><a href=\"@Url.Action("Blogdetail", "Blog")/"+this.ID+"\">"+ this.Titel + "</div>");
+                var ele = $('#' + this.ID);
+                var added = false;
+                $('.HotTopicRow').each(function () {
+                    var summe = 0;
+                    $(this).find('.HotTopicElement').each(function () {
+                        summe += $(this).outerWidth(true);
+                    });
+                    if ($(this).innerWidth() > (summe + $(ele).outerWidth(true))) {
+                        $(ele).css({ "left": summe + "px" });
+                        $(this).append($(ele));
+                        added = true;
+                        return;
+                    }
+                });
+                if (added != true) {
+                    $('#HotTopicBox').append("<div class=\"HotTopicRow\"></div>");
+                    $('.HotTopicRow').last().append($(ele));
+                }
+            });
+            $('.HotTopicRow').each(function () {
+                var height = 0;
+                $(this).find('.HotTopicElement').each(function () {
+                    if ($(this).outerHeight() > height) {
+                        height = $(this).outerHeight(true);
+                    }
+                });
+                $(this).css({ "height": height + "px" });
+            });
+            
+        });
+    </script>
+}
