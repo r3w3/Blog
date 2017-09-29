@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rewesblog.Models;
 using Rewesblog.Data;
-using Microsoft.AspNetCore.Authorization;
 using Rewesblog.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Rewesblog.Controllers
 {
     public class BlogController : Controller
     {
         private readonly ApplicationDbContext _context;
-        
+
         public BlogController(ApplicationDbContext context)
         {
             _context = context;
@@ -21,14 +19,14 @@ namespace Rewesblog.Controllers
         public IActionResult Index()
         {
             var blogmodel = new BlogViewModel();
-            blogmodel.blogeintraege = _context.Blogeinträge.Where(x=>x.Bereich == Bereiche.Blog).ToList();
+            blogmodel.blogeintraege = _context.Blogeinträge.Where(x => x.Bereich == Bereiche.Blog).ToList();
             return View("Blog", blogmodel);
         }
         public IActionResult Blog(bool? isSortbydate)
         {
             var blogmodel = new BlogViewModel();
             blogmodel.blogeintraege = _context.Blogeinträge.Where(x => x.Bereich == Bereiche.Blog).ToList();
-            if(isSortbydate!= null)
+            if (isSortbydate != null)
             {
                 blogmodel.isdatesorted = isSortbydate.Value;
             }
@@ -37,7 +35,7 @@ namespace Rewesblog.Controllers
         public IActionResult AddComment(BlogdetailViewModel model)
         {
             if (ModelState.IsValid)
-            {                
+            {
                 model.addedkommentar.BlogEintragID = model.eintrag.ID;
                 model.addedkommentar.CreatedDate = DateTime.Now;
                 _context.Kommentare.Add(model.addedkommentar);
@@ -51,7 +49,7 @@ namespace Rewesblog.Controllers
 
         public IActionResult Blogdetail(int? ID)
         {
-            if(ID != null)
+            if (ID != null)
             {
                 _context.Blogeinträge.First(x => x.ID == ID).ClickCount++;
                 _context.SaveChanges();
@@ -59,8 +57,8 @@ namespace Rewesblog.Controllers
                 var hotmodel = new HotTopicBoxViewModel();
                 hotmodel.Elemente = HotTopicManager.Styleelements(_context.Blogeinträge.Select(x => new HotTopicElement(x)).ToList());
                 var model = new BlogdetailViewModel();
-                var ele = _context.Blogeinträge.First(x=>x.ID==ID);
-                switch(ele.Bereich)
+                var ele = _context.Blogeinträge.First(x => x.ID == ID);
+                switch (ele.Bereich)
                 {
                     case Bereiche.Thema1:
                         return RedirectToAction("Thema1detail", "Thema1", new { ID = ID });
@@ -74,6 +72,20 @@ namespace Rewesblog.Controllers
                 return View("Blogdetail", model);
             }
             return RedirectToAction("Blog");
+        }
+        [HttpGet]
+        [Authorize]
+        public IActionResult Blogeintrag()
+        {
+            var blogeintragmodel = new BlogeintragViewModel();
+            return View("Blogeintrag", blogeintragmodel);
+        }
+        [HttpPost]
+        public IActionResult Blogeintrag(BlogeintragViewModel blogeintragmodel)
+        {
+            _context.Blogeinträge.Add(blogeintragmodel);
+            _context.SaveChanges();
+            return Blogeintrag();
         }
     }
 }

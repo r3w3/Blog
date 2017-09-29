@@ -13,10 +13,10 @@ namespace Rewesblog.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            this.Database.EnsureCreated();
         }
         public DbSet<Kommentar> Kommentare { get; set; }
         public DbSet<Blogeintrag> Blogeinträge { get; set; }
-        public DbSet<ApplicationUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

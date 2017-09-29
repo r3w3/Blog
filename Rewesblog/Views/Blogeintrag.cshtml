@@ -1,0 +1,41 @@
+﻿@model BlogeintragViewModel
+
+@{
+    ViewData["Blogeintrag"] = "Blogeintrag";
+}
+@*gleiche Daten wie bei Blogeintrag --> CheckBox für Kategorie(Blog, Thema1/2)
+Button für Entwurf und nicht nur speichern
+Kalenderfunktion --> in Kalender Daten eintragen*@
+<form method="post">
+    @Html.HiddenFor(m=>m.veröffentlicht)
+    <div class="form-group" >
+        @Html.LabelFor(m => m.Titel)
+        @Html.TextBoxFor(m=>m.Titel, new {@class = "form-control", placeholder = Html.DisplayNameFor(m => m.Titel) })
+        @Html.ValidationMessageFor(m => m.Titel, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Text)
+        @Html.TextBoxFor(m => m.Text, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.Text) })
+        @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m=>m.Bereich)
+        @Html.DropDownListFor(m=>m.Bereich, new SelectList(Enum.GetNames(typeof(Bereiche))))
+        @Html.ValidationMessageFor(m=>m.Bereich, null, new { @class = "text-danger"})
+    </div>
+    <div class="form-group">
+        <button id="entwurf" type="button" class="btn btn-default">Entwurf speichern</button>
+        <button id="veröffentlichen" type="submit" class="btn btn-default">Veröffentlichen</button>
+    </div>
+</form>
+
+@section Scripts{ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#entwurf').click(function () {
+                $('#@Html.IdFor(m => m.veröffentlicht)').val('true');
+                $('#veröffentlichen').click();
+            });
+        });
+    </script>
+}

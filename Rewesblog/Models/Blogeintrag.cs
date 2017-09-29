@@ -11,7 +11,7 @@ namespace Rewesblog.Models
         public string Text { get; set; }
         public string Titel { get; set; }
         public Bereiche Bereich { get; set; } = Bereiche.Blog;
-
+        public bool veröffentlicht { get; set;}
         public int ClickCount { get; set; } = 0;
         
         public ICollection<Kommentar>Kommentare { get; set; }
